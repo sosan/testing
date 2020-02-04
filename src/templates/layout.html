@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Examen Modulo 03</title>
+
+<!-- LINKS -->
+<link rel="stylesheet" href="{{url_for('static', filename='css/reset.css')}}">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css">
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css')}} ">
+
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header>
+
+    </header>
+
+    <!-- MAIN -->
+    <main>
+        {% block main %} {% endblock %}
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>copyright © - Álvaro Ruiz 2020</p>
+    </footer>
+    
+</body>
+</html>

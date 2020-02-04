@@ -1,0 +1,11 @@
+version: "3"
+
+services: 
+    app:
+        build: .
+        image: examen03
+        container_name: examen03
+        ports:
+            - "5588:5000"
+        volumes:
+            - ./src:/app

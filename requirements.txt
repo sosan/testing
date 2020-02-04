@@ -1,0 +1,7 @@
+pep8
+autopep8
+flask
+dnspython
+pylint
+gunicorn
+pymongo
