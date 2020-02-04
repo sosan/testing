@@ -18,6 +18,18 @@ class ManagerMongoDb:
         self.coleccion = self.db[coleccion]
 
 
+    def nuevo_registro(self, fecha, concepto, valor):
+        print('******************')
+        print('fecha :', fecha)
+        print('concepto :', concepto)
+        print('fecha :', valor)
+        print('******************')
+        registrar = self.coleccion.insert_one({
+            "fecha" : fecha,
+            "concepto" : concepto,
+            "valor": valor
+        })
+
     def busqueda_DB(self):
         busqueda = self.coleccion.find({})
         return busqueda

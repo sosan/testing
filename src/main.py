@@ -17,12 +17,30 @@ app.secret_key = 'todoSuperSecreto'
 @app.route('/', methods=['GET','POST'])
 def index():
     if request.method == 'POST':
+        pass
+        return render_template('index.html')
+    return render_template('index.html')
 
 
 
-    return render_template('index.html',)
-    
-return render_template('index.html',)
+@app.route('/gastos', methods=['GET','POST'])
+def gastos():
+    fecha = ""
+    concepto = ""
+    valor = ""
+    if request.method == 'POST':
+        mensaje = ""
+        fecha = request.form.get('fecha')
+        concepto = request.form.get('concepto')
+        valor = request.form.get('valor')
+        # if fecha != "" and concepto != "" and valor != "":
+        managermongo.nuevo_registro(fecha, concepto, valor)
+        return render_template('/gastos.html')
+    else:
+        mensaje = "Debe rellenar los campos...."  
+        return render_template('/gastos.html', mensaje=mensaje)  
+
+    return render_template('index.html')
 
 
 

@@ -1,0 +1,26 @@
+{% extends 'layout.html' %}
+
+<!-- MAIN -->
+{% block main %}
+<h1>Ingresar Gastos</h1><br><br><br>
+<div>
+    <div class="field">
+        <div class="control">
+            <form action="/" method="POST">
+            <input type="date" name="fecha" id="fecha" placeholder="fecha"><br><br>
+            Concepto<input class="input is-medium" type="concepto" name="concepto" id="concepto" />
+            Valor<input class="input is-medium" type="valor" name="valor" id="valor" />
+            <div class="control">
+              <button class="button is-primary" type="submit">GRABAR</button>
+            </div>
+          </form>
+        </div>
+      <h3>{{ mensaje }}</h3>
+      </div>
+
+ 
+</div>
+
+
+{% endblock %}
+
