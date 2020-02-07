@@ -1,0 +1,38 @@
+{% extends 'layout.html' %}
+
+<!-- MAIN -->
+{% block main %}
+<h1>Informe de Gastos</h1><br><br><br>
+<div>
+    <div class="field">
+        <div class="control">
+            <form action="/informe" method="POST">
+
+              <!-- Que mes desea ver :<input type="number" name="mesinfo" id="mesinfo"/> -->
+
+              <select name="mesinfo" id="mesinfo">
+                <option value="1">Enero</option>
+                <option value="2">Enero</option>
+                <option value="3">Enero</option>
+                <option value="4">Enero</option>
+                <option value="5">Enero</option>
+                <option value="6">Enero</option>
+                <option value="7">Enero</option>
+                <option value="8">Enero</option>
+                <option value="9">Enero</option>
+                <option value="10">Enero</option>
+                <option value="11">Enero</option>
+                <option value="12">Enero</option>
+              </select>
+              <input type="number" id="anoinfo" name="anoinfo" min="2020" max="2050">
+              
+              <div>
+               <button class="button is-primary" type="submit">MOSTRAR</button>
+              </div>
+            </form>
+        </div>
+      <h3>{{ mensaje }}</h3>
+    </div>
+</div>
+
+{% endblock %}

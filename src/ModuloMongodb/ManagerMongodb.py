@@ -19,11 +19,6 @@ class ManagerMongoDb:
 
 
     def nuevo_registro(self, fecha, concepto, valor):
-        print('******************')
-        print('fecha :', fecha)
-        print('concepto :', concepto)
-        print('fecha :', valor)
-        print('******************')
         registrar = self.coleccion.insert_one({
             "fecha" : fecha,
             "concepto" : concepto,
