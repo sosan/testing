@@ -29,12 +29,21 @@ def gastos():
     valor = ""
     mensaje = ""
     if request.method == 'POST':
-        fecha = request.form.get('fecha')
-        # provisional-------------
+        # fecha = request.form.get('fecha')
+        fecha_str = request.form["fecha"]
         print('*' * 50)
-        print('fecha :', fecha)
-        fecha_convertida = datetime(fecha.year, fecha.month, fecha.day)
-        valor = request.form.get('valor')
+        print('fecha :', fecha_str)
+        # formato fecha_str: 2020-2-6
+        trozos_fecha = fecha_str.split("-")
+        ano = int(trozos_fecha[0])
+        mes = int(trozos_fecha[1])
+        dia = int(trozos_fecha[2])
+        fecha_convertida = datetime(ano, mes, dia)
+        
+        # provisional-------------
+        valor_str = request.form.get('valor')
+        # pasado a float para luego poder hacer calculos
+        valor = float(valor_str)
         concepto = request.form.get('concepto')
         if fecha != "" and concepto != "" and valor != "":
             mensaje = "Evento registrado con éxito"
