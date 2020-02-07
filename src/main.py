@@ -68,7 +68,8 @@ def informe():
         
         return render_template('informe.html', mensaje=mensaje)
     else:
-        return render_template('informe.html', mensaje=mensaje)
+        return render_template('informe.html', anoactual=datetime.utcnow().year, mesactual=datetime.utcnow().month,
+                                mensaje=mensaje)
 
         
     return render_template('informe.html')
