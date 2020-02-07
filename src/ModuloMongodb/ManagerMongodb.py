@@ -24,6 +24,10 @@ class ManagerMongoDb:
             "concepto" : concepto,
             "valor": valor
         })
+        if registrar.inserted_id != None:
+            return "Evento registrado con éxito"
+        else:
+            return "No posible registro"
 
     def busqueda_DB(self):
         busqueda = self.coleccion.find({})

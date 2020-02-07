@@ -45,9 +45,9 @@ def gastos():
         # pasado a float para luego poder hacer calculos
         valor = float(valor_str)
         concepto = request.form.get('concepto')
-        if fecha != "" and concepto != "" and valor != "":
-            mensaje = "Evento registrado con éxito"
-            managermongo.nuevo_registro(fecha_convertida, concepto, valor)
+        if fecha_convertida != "" and concepto != "" and valor != "":
+            # mensaje = "Evento registrado con éxito"
+            mensaje = managermongo.nuevo_registro(fecha_convertida, concepto, valor)
             return render_template('gastos.html', mensaje=mensaje)
         else:
             print('********** Dentro Gastos')
