@@ -3,6 +3,19 @@
 <!-- MAIN -->
 {% block main %}
 <h1>Informe de Gastos</h1><br><br><br>
+    <div>
+    {% if informes %}
+        {% for i in range(0, informes|length) %}
+            <p>Concepto: {{ informes[i].concepto }}</p>
+            <p>Valor: {{ informes[i].valor }}</p>
+            <hr>
+
+        {% endfor %}
+    {% endif %}
+
+    </div>
+
+
 <div>
     <div class="field">
         <div class="control">
