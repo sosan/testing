@@ -6,6 +6,7 @@
     <div>
     {% if informes %}
         {% for i in range(0, informes|length) %}
+            <p>Fecha: {{ informes[i].fecha.strftime("%d-%m-%Y") }}</p>
             <p>Concepto: {{ informes[i].concepto }}</p>
             <p>Valor: {{ informes[i].valor }}</p>
             <hr>
@@ -46,8 +47,7 @@
             </form>
             <form action="/" method="POST">
               <button class="button is-primary" type="submit">SALIR</button>
-            </div>
-          </form>
+            </form>
         </div>
       <h3>{{ mensaje }}</h3>
     </div>

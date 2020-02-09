@@ -1,3 +1,4 @@
+
 from flask import Flask
 from flask import render_template
 from flask import request
@@ -5,6 +6,7 @@ from flask import redirect
 from flask import url_for
 from flask import session
 from datetime import datetime
+import calendar
 from ModuloMongodb.ManagerMongodb import managermongo
 
 import os
@@ -43,7 +45,6 @@ def gastos():
         print('fecha_convertida :', fecha_convertida)
         print('*' * 50)
 
-
         # provisional-------------
         valor_str = request.form.get('valor')
         # pasado a float para luego poder hacer calculos
@@ -69,16 +70,17 @@ def informe():
         ano_str = request.form.get('anoinfo')
         mesinfo = int(mes_str)
         anoinfo = int(ano_str)
-        diaactual = datetime.utcnow().day
 
         fecha_inicio_informe = datetime(anoinfo, mesinfo, 1)
-        fecha_fin_informe = datetime(anoinfo, mesinfo, diaactual)
-
-        print('***** Fechas desde hasta :',fecha_inicio_informe, ' ** ', fecha_fin_informe)
+        # calendar.monthrange te devuelve numero de semanas del mes[0] y ultimo dia del mes[1]
+        fecha_fin_informe = datetime(anoinfo, mesinfo, calendar.monthrange(anoinfo, mesinfo)[1])
+        
+        print('***** Fechas desde hasta :', fecha_inicio_informe, ' ** ', fecha_fin_informe)
         informes = managermongo.getinforme(
             fecha_inicio_informe, fecha_fin_informe)
 
-        return render_template('informe.html', mensaje=mensaje, informes=informes)
+        return render_template('informe.html', anoactual=datetime.utcnow().year, mesactual=datetime.utcnow().month,
+                               mensaje=mensaje, informes=informes)
     else:
         return render_template('informe.html', anoactual=datetime.utcnow().year, mesactual=datetime.utcnow().month,
                                mensaje=mensaje)
