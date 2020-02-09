@@ -41,8 +41,8 @@ class ManagerMongoDb:
                     "$gte": fecha_inicio_informe,
                     "$lte": fecha_fin_informe
                 }
-            })
-        )
+            }).sort("fecha", 1))
+
         return historico
 
 

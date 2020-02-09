@@ -74,7 +74,7 @@ def informe():
         fecha_inicio_informe = datetime(anoinfo, mesinfo, 1)
         # calendar.monthrange te devuelve numero de semanas del mes[0] y ultimo dia del mes[1]
         fecha_fin_informe = datetime(anoinfo, mesinfo, calendar.monthrange(anoinfo, mesinfo)[1])
-        
+
         print('***** Fechas desde hasta :', fecha_inicio_informe, ' ** ', fecha_fin_informe)
         informes = managermongo.getinforme(
             fecha_inicio_informe, fecha_fin_informe)
