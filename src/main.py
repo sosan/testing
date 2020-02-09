@@ -40,6 +40,9 @@ def gastos():
         mes = int(trozos_fecha[1])
         dia = int(trozos_fecha[2])
         fecha_convertida = datetime(ano, mes, dia)
+        print('fecha_convertida :', fecha_convertida)
+        print('*' * 50)
+
 
         # provisional-------------
         valor_str = request.form.get('valor')
@@ -51,7 +54,6 @@ def gastos():
             mensaje = managermongo.nuevo_registro(fecha_convertida, concepto, valor)
             return render_template('gastos.html', mensaje=mensaje)
         else:
-            print('********** Dentro Gastos')
             mensaje = "Debe rellenar los campos...."
             return render_template('gastos.html', mensaje=mensaje)
     else:
@@ -60,6 +62,7 @@ def gastos():
 
 @app.route('/informe', methods=['GET', 'POST'])
 def informe():
+    anoinfo = 0
     mensaje = ""
     if request.method == 'POST':
         mes_str = request.form.get('mesinfo')
@@ -71,6 +74,7 @@ def informe():
         fecha_inicio_informe = datetime(anoinfo, mesinfo, 1)
         fecha_fin_informe = datetime(anoinfo, mesinfo, diaactual)
 
+        print('***** Fechas desde hasta :',fecha_inicio_informe, ' ** ', fecha_fin_informe)
         informes = managermongo.getinforme(
             fecha_inicio_informe, fecha_fin_informe)
 
