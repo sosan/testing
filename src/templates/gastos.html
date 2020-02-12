@@ -2,26 +2,84 @@
 
 <!-- MAIN -->
 {% block main %}
-<h1>Ingresar Gastos</h1><br><br><br>
+<h1 xmlns="http://www.w3.org/1999/html">Ingresar Gastos</h1><br><br><br>
 <div>
     <div class="field">
-            <form action="/gastos" method="POST">
-              <input type="date" name="fecha" id="fecha" placeholder="fecha"><br><br>
-              Concepto<input class="input is-medium" type="text" name="concepto" id="concepto" />
-              Valor<input class="input is-medium" type="number" min="0" step="any" value=""name="valor" id="valor" />
-              <div class="control">
-                <button class="button is-primary" type="submit">GRABAR</button>
-              </div>
-            </form>
-            <form action="/" method="POST">
-                <button class="button is-primary" type="submit">SALIR</button>
-              </div>
-            </form>
+    {% if errores %}
+        <h3 class="">{{ errores }}</h3><br><br>
+    {% endif %}
+        <form action="/gastos" method="POST">
+        <input type="date" name="fecha" id="fecha" value="{{ fecha_actual.strftime("%Y-%m-%d") }}"><br><br>
+            Concepto
+            <select name="concepto" id="concepto">
+            {% for i in range(0, listado_conceptos|length) %}
+                <option value="{{ listado_conceptos[i] }}">{{ listado_conceptos[i] }}</option>
+            {% endfor %}
+            </select>
+            <button type="button" class="button modal-button" data-target="#vermodal" aria-haspopup="true">Añadir Conceptos</button>
+            <br>
+
+          Valor<input class="input is-medium" type="number" min="0" step="any" value=""name="valor" id="valor" />
+          <div class="control">
+            <button class="button is-primary" type="submit">GRABAR</button>
+          </div>
+        </form>
+        <form action="/" method="POST">
+            <button class="button is-primary" type="submit">SALIR</button>
+          </div>
+        </form>
         <h3>{{ mensaje }}</h3>
     </div>
 
 </div>
 
+<div class="modal " id="vermodal">
+<form action="{{ url_for("nuevo_concepto") }}" method="post">
+  <div class="modal-background"></div>
+  <div class="modal-card">
+    <header class="modal-card-head">
+      <p class="modal-card-title">Nuevo Concepto</p>
+      <button class="delete" aria-label="close" type="button"></button>
+    </header>
+    <section class="modal-card-body">
+      Concepto
+        <input type="text" name="txt_concepto" value="">
+    </section>
+    <footer class="modal-card-foot">
+      <button class="button is-success" type="submit">Insertar Nuevo Concepto</button>
+      <button class="button close" aria-label="close" type="button">Cancelar</button>
+    </footer>
+  </div>
+</form>
+</div>
 
+
+{% endblock %}
+
+
+{% block scripts %}
+    <script>
+    document.querySelectorAll('.modal-button').forEach(function(el)
+    {
+        el.addEventListener('click', function()
+        {
+            var target = document.querySelector(el.getAttribute('data-target'));
+
+            target.classList.add('is-active');
+
+            target.querySelector('.close').addEventListener('click',   function()
+            {
+                target.classList.remove('is-active');
+            });
+
+             target.querySelector('.delete').addEventListener('click',   function()
+            {
+                target.classList.remove('is-active');
+            });
+
+        });
+});
+
+    </script>
 {% endblock %}
 

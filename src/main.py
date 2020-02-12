@@ -1,4 +1,3 @@
-
 from flask import Flask
 from flask import render_template
 from flask import request
@@ -8,11 +7,14 @@ from flask import session
 from datetime import datetime
 import calendar
 from ModuloMongodb.ManagerMongodb import managermongo
+from ModuloMongodb.ManagerMongodb import Errores
 
 import os
 
 app = Flask(__name__)
 app.secret_key = 'todoSuperSecreto'
+
+errores = Errores()
 
 """ LOGICA"""
 
@@ -58,7 +60,31 @@ def gastos():
             mensaje = "Debe rellenar los campos...."
             return render_template('gastos.html', mensaje=mensaje)
     else:
-        return render_template('gastos.html', mensaje=mensaje)
+
+        listado_conceptos = managermongo.getlistado_conceptos("test_usuario")
+        errores = None
+        if "errorinsertadoconcepto" in session:
+            errores = session.pop("errorinsertadoconcepto")
+
+        return render_template('gastos.html', fecha_actual=datetime.today(), mensaje=mensaje,
+                               listado_conceptos=listado_conceptos, errores=errores)
+
+
+@app.route("/nuevoconcepto", methods=["post"])
+def nuevo_concepto():
+    if "txt_concepto" in request.form:
+        if request.form["txt_concepto"] == "":
+            return redirect(url_for("gastos"))
+
+        resultado = managermongo.insertar_nuevo_concepto("test_usuario", request.form["txt_concepto"])
+        if resultado == errores.correcto:
+            return redirect(url_for("gastos"))
+        elif resultado == errores.duplicado:
+            session["errorinsertadoconcepto"] = "Concepto Duplicado"
+        else:
+            session["errorinsertadoconcepto"] = "Fallo db"
+
+    return redirect(url_for("gastos"))
 
 
 @app.route('/informe', methods=['GET', 'POST'])
