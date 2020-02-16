@@ -17,6 +17,7 @@
             {% endfor %}
             </select>
             <button type="button" class="button modal-button" data-target="#vermodal" aria-haspopup="true">Añadir Conceptos</button>
+            <button type="button" class="button modal-button" data-target="#ver_renombrar" aria-haspopup="true">Renombrar Conceptos</button>
             <br>
 
           Valor<input class="input is-medium" type="number" min="0" step="any" value=""name="valor" id="valor" />
@@ -53,6 +54,34 @@
 </form>
 </div>
 
+<div class="modal " id="ver_renombrar">
+  <form action="{{ url_for("renombrar_concepto") }}" method="post">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+      <header class="modal-card-head">
+        <p class="modal-card-title">Renombrar Concepto</p>
+        <button class="delete" aria-label="close" type="button"></button>
+      </header>
+      <section class="modal-card-body">
+         <select name="concepto" id="concepto">
+           {% for i in range(0, listado_conceptos|length) %}
+           <option value="{{ listado_conceptos[i] }}">{{ listado_conceptos[i] }}</option>
+           {% endfor %}
+         </select>
+
+        <br>Renombrar
+        <input type="text" name="txt_renombrar_concepto" value="">
+      </section>
+      <footer class="modal-card-foot">
+        <button class="button is-success" type="submit">Renombrar Concepto</button>
+        <button class="button close" aria-label="close" type="button">Cancelar</button>
+      </footer>
+    </div>
+  </form>
+</div>
+
+
+
 
 {% endblock %}
 
@@ -72,7 +101,7 @@
                 target.classList.remove('is-active');
             });
 
-             target.querySelector('.delete').addEventListener('click',   function()
+            target.querySelector('.delete').addEventListener('click',   function()
             {
                 target.classList.remove('is-active');
             });

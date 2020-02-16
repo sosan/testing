@@ -56,13 +56,13 @@ def gastos():
             "test_usuario")
         if fecha_convertida != "" and concepto != "" and valor != "":
             # mensaje = "Evento registrado con éxito"
-            mensaje = managermongo.nuevo_registro(fecha_convertida, concepto, valor)
+            mensaje = managermongo.nuevo_registro("test_usuario", fecha_convertida, concepto, valor)
             return render_template('gastos.html', fecha_actual=datetime.today(), mensaje=mensaje,
-                                    listado_conceptos=listado_conceptos)
+                                   listado_conceptos=listado_conceptos)
         else:
             mensaje = "Debe rellenar los campos...."
             return render_template('gastos.html', fecha_actual=datetime.today(), mensaje=mensaje,
-                                    listado_conceptos=listado_conceptos)
+                                   listado_conceptos=listado_conceptos)
     else:
         listado_conceptos = managermongo.getlistado_conceptos("test_usuario")
         errores = None
@@ -70,7 +70,7 @@ def gastos():
             errores = session.pop("errorinsertadoconcepto")
 
         return render_template('gastos.html', fecha_actual=datetime.today(), mensaje=mensaje,
-                                listado_conceptos=listado_conceptos, errores=errores)
+                               listado_conceptos=listado_conceptos, errores=errores)
 
 
 @app.route("/nuevoconcepto", methods=["post"])
@@ -87,6 +87,28 @@ def nuevo_concepto():
         else:
             session["errorinsertadoconcepto"] = "Fallo db"
 
+    return redirect(url_for("gastos"))
+
+
+@app.route("/nuevoconcepto", methods=["get"])
+def nuevo_concepto_get():
+    return redirect(url_for("gastos"))
+
+
+@app.route("/renombrarconcepto", methods=["post"])
+def renombrar_concepto():
+    if "txt_renombrar_concepto" in request.form:
+        if request.form["txt_renombrar_concepto"] == "":
+            return redirect(url_for("gastos"))
+
+        resultado = managermongo.renombrar_concepto(
+            "test_usuario", request.form["concepto"], request.form["txt_renombrar_concepto"])
+
+    return redirect(url_for("gastos"))
+
+
+@app.route("/renombrarconcepto", methods=["get"])
+def renombrar_concepto_get():
     return redirect(url_for("gastos"))
 
 

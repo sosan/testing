@@ -9,6 +9,8 @@ class Errores:
         self.correcto = 1
         self.duplicado = 2
         self.fallodb = 3
+        self.noexiste = 4
+        self.noactualizado = 5
 
 
 class ManagerMongoDb:
@@ -28,8 +30,9 @@ class ManagerMongoDb:
         self.coleccion = self.db[coleccion]
         self.coleccion_usuarios = self.db["usuarios"]
 
-    def nuevo_registro(self, fecha, concepto, valor):
+    def nuevo_registro(self, usuario, fecha, concepto, valor):
         registrar = self.coleccion.insert_one({
+            "usuario": usuario,
             "fecha": fecha,
             "concepto": concepto,
             "valor": valor
@@ -108,6 +111,42 @@ class ManagerMongoDb:
         if resultado.modified_count > 0:
             return self.errores.correcto
         return self.errores.fallodb
+
+    def renombrar_concepto(self, usuario, concepto_antiguo, concepto_nuevo):
+
+        datos = self.coleccion_usuarios.find_one(
+            {"conceptos_usuario": usuario})
+        if concepto_antiguo in datos["conceptos"]:
+            for i in range(0, len(datos["conceptos"])):
+                if datos["conceptos"][i] == concepto_antiguo:
+                    datos["conceptos"][i] = concepto_nuevo
+        else:
+            return self.errores.noexiste
+
+        resultado_concepto_actualizado = self.coleccion_usuarios.update_one(
+            {"conceptos_usuario": usuario},
+            {"$set":
+                 {"conceptos": datos["conceptos"]}
+             }
+        )
+
+        numeroactualizaciones = self.coleccion.count_documents({"usuario": usuario, "concepto": concepto_antiguo})
+
+        resultado__actualizacion_coleccion = self.coleccion.update_many(
+            {
+                "usuario": usuario,
+                "concepto": concepto_antiguo
+            },
+            {"$set":
+                 {"concepto": concepto_nuevo}
+             }
+        )
+
+        if (resultado_concepto_actualizado.modified_count > 0) and (
+                resultado__actualizacion_coleccion.modified_count == numeroactualizaciones):
+            return self.errores.correcto
+        else:
+            return self.errores.noactualizado
 
 
 managermongo = ManagerMongoDb()
