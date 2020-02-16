@@ -9,7 +9,7 @@
         <h3 class="">{{ errores }}</h3><br><br>
     {% endif %}
         <form action="/gastos" method="POST">
-        <input type="date" name="fecha" id="fecha" value="{{ fecha_actual.strftime("%Y-%m-%d") }}"><br><br>
+            <input type="date" name="fecha" id="fecha" value="{{ fecha_actual.strftime("%Y-%m-%d") }}" required><br><br>
             Concepto
             <select name="concepto" id="concepto">
             {% for i in range(0, listado_conceptos|length) %}
