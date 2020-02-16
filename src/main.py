@@ -52,22 +52,25 @@ def gastos():
         # pasado a float para luego poder hacer calculos
         valor = float(valor_str)
         concepto = request.form.get('concepto')
+        listado_conceptos = managermongo.getlistado_conceptos(
+            "test_usuario")
         if fecha_convertida != "" and concepto != "" and valor != "":
             # mensaje = "Evento registrado con éxito"
             mensaje = managermongo.nuevo_registro(fecha_convertida, concepto, valor)
-            return render_template('gastos.html', mensaje=mensaje)
+            return render_template('gastos.html', fecha_actual=datetime.today(), mensaje=mensaje,
+                                    listado_conceptos=listado_conceptos)
         else:
             mensaje = "Debe rellenar los campos...."
-            return render_template('gastos.html', mensaje=mensaje)
+            return render_template('gastos.html', fecha_actual=datetime.today(), mensaje=mensaje,
+                                    listado_conceptos=listado_conceptos)
     else:
-
         listado_conceptos = managermongo.getlistado_conceptos("test_usuario")
         errores = None
         if "errorinsertadoconcepto" in session:
             errores = session.pop("errorinsertadoconcepto")
 
         return render_template('gastos.html', fecha_actual=datetime.today(), mensaje=mensaje,
-                               listado_conceptos=listado_conceptos, errores=errores)
+                                listado_conceptos=listado_conceptos, errores=errores)
 
 
 @app.route("/nuevoconcepto", methods=["post"])
